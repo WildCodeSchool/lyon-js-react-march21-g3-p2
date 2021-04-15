@@ -1,0 +1,92 @@
+.App {
+  width: auto;
+  height: 100vh;
+}
+
+#wrapHeader {
+  background-color: whitesmoke;
+  border-style: solid;
+  height: 33.33%;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  border: 0px;
+  grid-gap: 10px;
+  margin-right: 5px;
+}
+#wrapHeader img {
+  grid-row-start: 1;
+  grid-row-end: 5;
+  width: 65%;
+  align-self: center;
+  align-items: center;
+}
+
+#title {
+  background-color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  margin: 0px;
+  font-size: 3em;
+  align-items: center;
+}
+
+#authorName {
+  background-color: white;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  margin: 0px;
+  font-size: 2em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#averageNote {
+  background-color: white;
+  margin: 0px;
+  font-size: 2em;
+  text-align: center;
+}
+
+#cloudWord {
+  background-color: white;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  margin: 0px;
+  font-size: 1em;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 5px 5px 5px 5px;
+}
+
+#wrapMain {
+  background-color: whitesmoke;
+  height: 33.33%;
+  padding: 5px 5px 5px 5px;
+}
+
+#wrapFooter {
+  background-color: whitesmoke;
+  height: 33.33%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+#media {
+  background-color: white;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  padding: 5px 5px 5px 5px;
+}
+
+#place {
+  background-color: white;
+  padding: 5px 5px 5px 5px;
+}
+
+#specification {
+  background-color: white;
+  padding: 5px 5px 5px 5px;
+}
