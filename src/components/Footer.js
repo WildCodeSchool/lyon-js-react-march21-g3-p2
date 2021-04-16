@@ -1,5 +1,7 @@
-const Footer = () => {
-  return <footer>Footer</footer>;
-};
+import './Footer.css';
+import React from 'react';
+// import Copyright from 'react-copyright';
 
-export default Footer;
+export default function Footer() {
+  return <footer>Footer</footer>;
+}

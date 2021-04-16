@@ -1,0 +1,44 @@
+/* THEME SECTION */
+
+.themeContainer {
+  background-color: white;
+  height: 500px;
+  padding: 20px 0;
+}
+
+.themeContainer h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 3em;
+  color: #333355;
+  margin-left: 400px;
+}
+
+@media screen and (max-width: 960px) {
+  .themeContainer {
+    background-color: white;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .themeContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    color: #333355;
+    margin-left: 200px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .themeContainer {
+    background-color: white;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .themeContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1em;
+    color: #333355;
+    margin-left: 100px;
+  }
+}
