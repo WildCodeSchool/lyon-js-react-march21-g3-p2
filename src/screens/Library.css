@@ -1,0 +1,59 @@
+.research {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 100px;
+}
+
+#outlined-search {
+  width: 800px;
+  height: auto;
+  background-color: white;
+  border-radius: 4px;
+}
+
+#advance {
+  width: 400px;
+  height: auto;
+}
+
+.advancedButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 100px;
+}
+
+#theme,
+#price,
+#year {
+  width: 300px;
+  height: 60px;
+}
+
+.itemList {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.list {
+  border: 1px solid black;
+}
+
+#item {
+  text-align: center;
+  background-color: white;
+  cursor: pointer;
+}
+
+.books {
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: wrap;
+}
+
+.books img {
+  width: 500px;
+  height: auto;
+  margin-top: 100px;
+  cursor: pointer;
+}

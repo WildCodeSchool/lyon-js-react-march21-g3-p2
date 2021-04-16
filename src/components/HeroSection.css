@@ -1,0 +1,66 @@
+/* HEROS */
+
+.heroContainer {
+  background: url('./images/livre1.jpg') center;
+  height: 600px;
+  width: auto;
+  background-size: cover;
+  padding: 20px 0;
+}
+
+.catchphraseContainer {
+  background-color: #aa6655;
+  height: 150px;
+  padding: 20px 0;
+}
+
+.catchphraseContainer h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 3em;
+  color: #333355;
+  text-align: center;
+}
+
+@media screen and (max-width: 960px) {
+  .heroContainer {
+    background: url('./images/livre1.jpg') center;
+    height: 450px;
+    width: auto;
+    background-size: cover;
+    padding: 20px 0;
+  }
+
+  .catchphraseContainer {
+    background-color: #aa6655;
+    height: 150px;
+    padding: 20px 0;
+  }
+  .catchphraseContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    color: #333355;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .heroContainer {
+    background: url('./images/livre1.jpg') center;
+    height: 300px;
+    width: auto;
+    background-size: cover;
+    padding: 20px 0;
+  }
+
+  .catchphraseContainer {
+    background-color: #aa6655;
+    height: 150px;
+    padding: 20px 0;
+  }
+  .catchphraseContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1em;
+    color: #333355;
+    text-align: center;
+  }
+}
