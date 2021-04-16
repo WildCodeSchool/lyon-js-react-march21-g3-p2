@@ -1,9 +1,16 @@
 import { NavLink } from 'react-router-dom';
 
+import './Header.css';
+
+import logo from '../img/logo.png';
+
+const Logo = logo;
+
 export default function Header() {
   return (
     <header>
       <nav>
+        <img src={Logo} alt="logo" />
         <ul>
           <li>
             <NavLink exact to="/">
