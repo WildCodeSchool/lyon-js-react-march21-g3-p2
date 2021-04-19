@@ -1,94 +1,71 @@
-.App {
-  width: auto;
+#wrap {
+  background-color: grey;
   height: 100vh;
-}
-
-#wrapHeader {
-  background-color: whitesmoke;
-  border-style: solid;
-  height: 33%;
+  width: auto;
   display: grid;
-  grid-template-columns: 1fr 4fr fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  border: 0px;
-  grid-gap: 10px;
-  margin-right: 5px;
+  grid-gap: 5px;
 }
-#wrapHeader img {
+#coverBook {
   grid-row-start: 1;
-  grid-row-end: 5;
-  max-width: 100%;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
   max-height: 100%;
+  max-width: 100%;
 }
 
 #title {
   background-color: white;
   grid-column-start: 2;
-  grid-column-end: 4;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
   margin: 0px;
-  font-size: 3em;
-  align-items: center;
-  text-align: center;
-  padding-top: 10px;
 }
 
 #authorName {
   background-color: white;
   grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
   margin: 0px;
-  font-size: 2em;
-  text-align: center;
-  vertical-align: middle;
-  text-align: center;
-  padding-top: 20px;
 }
 
 #averageNote {
   background-color: white;
+  grid-column-start: 4;
+  grid-column-end: 5;
   margin: 0px;
-  font-size: 2em;
-  text-align: center;
-  padding-top: 20px;
 }
 
 #description {
   background-color: white;
-  grid-column-start: 2;
-  grid-column-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 5;
   margin: 0px;
-  font-size: 1em;
-  text-align: left;
-  word-wrap: break-word;
-  padding: 5px 5px 5px 5px;
-}
-
-#wrapFooter {
-  background-color: whitesmoke;
-  height: 33%;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 5fr;
 }
 
 #media {
   background-color: white;
-  grid-row-start: 1;
-  grid-row-end: 4;
-  padding: 5px 5px 5px 5px;
+  grid-row-start: 4;
+  grid-row-end: 6;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 #place {
   background-color: white;
-  grid-row-start: 1;
-  grid-row-end: 3;
-  padding: 5px 5px 5px 5px;
+  grid-row-start: 4;
+  grid-row-end: 5;
+  grid-column-start: 3;
+  grid-column-end: 5;
 }
 
 #specification {
   background-color: white;
-  padding: 5px 5px 5px 5px;
-  grid-row-start: 1;
-  grid-row-end: 3;
+  grid-row-start: 5;
+  grid-row-end: 6;
+  grid-column-start: 3;
+  grid-column-end: 5;
 }
