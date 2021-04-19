@@ -19,15 +19,7 @@ function BookDetailPage() {
         <h1 id="title">{title}</h1>
         <h1 id="authorName">{authorName}</h1>
         <h1 id="averageNote">{averageNote}</h1>
-        <h1 id="cloudWord">{cloudWord}</h1>
-      </div>
-
-      <div id="wrapMain">
-        {' '}
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias,
-        corporis enim deleniti possimus dolorem facilis tenetur porro
-        exercitationem ipsa eligendi velit reprehenderit. Cumque rem, quos sint
-        doloribus voluptas ex delectus.{' '}
+        <h1 id="description">{cloudWord}</h1>
       </div>
 
       <div id="wrapFooter">

@@ -6,9 +6,9 @@
 #wrapHeader {
   background-color: whitesmoke;
   border-style: solid;
-  height: 33.33%;
+  height: 33%;
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 4fr fr;
   grid-template-rows: 1fr 1fr 1fr;
   border: 0px;
   grid-gap: 10px;
@@ -17,9 +17,8 @@
 #wrapHeader img {
   grid-row-start: 1;
   grid-row-end: 5;
-  width: 65%;
-  align-self: center;
-  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 #title {
@@ -29,6 +28,8 @@
   margin: 0px;
   font-size: 3em;
   align-items: center;
+  text-align: center;
+  padding-top: 10px;
 }
 
 #authorName {
@@ -39,6 +40,8 @@
   font-size: 2em;
   text-align: center;
   vertical-align: middle;
+  text-align: center;
+  padding-top: 20px;
 }
 
 #averageNote {
@@ -46,9 +49,10 @@
   margin: 0px;
   font-size: 2em;
   text-align: center;
+  padding-top: 20px;
 }
 
-#cloudWord {
+#description {
   background-color: white;
   grid-column-start: 2;
   grid-column-end: 4;
@@ -59,34 +63,32 @@
   padding: 5px 5px 5px 5px;
 }
 
-#wrapMain {
-  background-color: whitesmoke;
-  height: 33.33%;
-  padding: 5px 5px 5px 5px;
-}
-
 #wrapFooter {
   background-color: whitesmoke;
-  height: 33.33%;
+  height: 33%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
   grid-gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 5fr;
 }
 
 #media {
+  background-color: white;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  padding: 5px 5px 5px 5px;
+}
+
+#place {
   background-color: white;
   grid-row-start: 1;
   grid-row-end: 3;
   padding: 5px 5px 5px 5px;
 }
 
-#place {
-  background-color: white;
-  padding: 5px 5px 5px 5px;
-}
-
 #specification {
   background-color: white;
   padding: 5px 5px 5px 5px;
+  grid-row-start: 1;
+  grid-row-end: 3;
 }
