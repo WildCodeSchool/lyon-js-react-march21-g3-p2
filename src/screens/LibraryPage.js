@@ -1,17 +1,99 @@
-import React from 'react';
+/* eslint-disable no-alert */
+/* eslint-disable prefer-template */
+/* eslint-disable no-unused-expressions */
+import React, { useState } from 'react';
+import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import { FixedSizeList } from 'react-window';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Search from '../components/Search';
 import './Library.css';
+import {
+  // FormControl,
+  // InputLabel,
+  // Select,
+  TextField,
+  // MenuItem,
+} from '@material-ui/core';
 
 export default function LibraryPage() {
-  const [showCat, setShowCat] = React.useState(false);
-  const [showGenre, setShowGenre] = React.useState(false);
-  const [showPrice, setShowPrice] = React.useState(false);
-  const [showYear, setShowYear] = React.useState(false);
+  const newMax = {
+    maxValue1: 10,
+    maxValue2: 20,
+    maxValue3: 30,
+    maxValue4: 40,
+  };
+
+  const genre = {
+    theme: [
+      'Adventure',
+      'Fantasy',
+      'Superhero',
+      'Action',
+      'Dark fantasy',
+      'Post-apocalyptic',
+      'Harem',
+      'Romantic comedy',
+      'Fantasy comedy',
+      'Martial arts',
+    ],
+  };
+
+  const [newBook, setNewBook] = useState('');
+  // const [newSubject, setNewSubject] = useState(genre);
+  const [result, setResult] = useState([]);
+  const [maxResult, setMaxResult] = useState(newMax.maxValue1);
+  const [apiKey] = useState('AIzaSyDRBKFo-QL8Zw3Tw5ga7kPulKFMFxxtkQQ');
+  const [showCat, setShowCat] = useState(false);
+  const [showGenre, setShowGenre] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
+  const [showYear, setShowYear] = useState(false);
+
+  const handleChange = (e) => {
+    setNewBook(e.target.value);
+  };
+  const handleChangeMaxResult = (e) => {
+    setMaxResult(e.target.value);
+  };
+  /* const handleNewSubject = (e) => {
+    setNewSubject(e.target.value);
+  }; */
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    !newBook
+      ? alert('Nothing is defined !')
+      : axios
+          .get(
+            'https://www.googleapis.com/books/v1/volumes?q=' +
+              newBook +
+              '&key=' +
+              apiKey +
+              '&maxResults=' +
+              maxResult
+          )
+          .then((res) => {
+            setResult(res.data.items);
+          });
+    setNewBook('');
+  };
+
+  /* const handleNewSubjectTest = (e) => {
+    e.preventDefault();
+    axios
+      .get(
+        'https://www.googleapis.com/books/v1/volumes?q=subject:' +
+          newSubject +
+          '&key=' +
+          apiKey +
+          '&maxResults=' +
+          maxResult
+      )
+      .then((res) => {
+        setResult(res.data.items);
+      });
+  }; */
 
   const closeAll = () => {
     setShowCat(!showCat);
@@ -34,25 +116,14 @@ export default function LibraryPage() {
     setShowPrice(false);
     setShowGenre(false);
   };
-  const genre = [
-    'Adventure',
-    'Fantasy',
-    'Superhero',
-    'Action',
-    'Dark fantasy',
-    'Post-apocalyptic',
-    'Harem',
-    'Romantic comedy',
-    'Fantasy comedy',
-    'Martial arts',
-  ];
-  /* const Aaaaa = () => {
-    alert('AAAAAAAH !');
-  }; */
 
   const genreList = ({ index, style }) => (
     <ListItem button style={style} key={index} id="item">
-      <ListItemText primary={genre[index]} /* onClick={Aaaaa} */ />
+      <ListItemText
+        primary={genre.theme[index]}
+        // value={newSubject}
+        // onClick={handleNewSubjectTest}
+      />
     </ListItem>
   );
   const Price = ({ index, style }) => (
@@ -65,78 +136,6 @@ export default function LibraryPage() {
       {index > 9 ? 20 + [index] : 200 + [index]}
     </div>
   );
-
-  const books = [
-    {
-      id: 1,
-      name: 'My Hero Academia',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
-      author: 'Kōhei Horikoshi',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Superhero',
-      },
-    },
-    {
-      id: 2,
-      name: 'Attack On Titans',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81E7fve1HbL.jpg',
-      author: 'Hajime Isayama',
-      genre: {
-        genre_1: 'Action',
-        genre_2: 'Dark fantasy',
-        genre_3: 'Post-apocalyptic',
-      },
-    },
-    {
-      id: 3,
-      name: 'Quintessential Quintuplets',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81C5msmPz1L.jpg',
-      author: 'Negi Haruba',
-      genre: {
-        genre_1: 'Harem',
-        genre_2: 'Romantic comedy',
-      },
-    },
-    {
-      id: 4,
-      name: 'One Piece',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/91WAjehGfFL.jpg',
-      author: 'Eiichiro Oda',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-      },
-    },
-    {
-      id: 5,
-      name: 'Naruto',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/91D9z2WL3WL.jpg',
-      author: 'Masashi Kishimoto',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy comedy',
-        genre_3: 'Martial arts',
-      },
-    },
-    {
-      id: 6,
-      name: 'Dragon Ball Super',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/913g8zhpCYL.jpg',
-      author: 'Akira Toriyama',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Martial arts',
-      },
-    },
-  ];
-
-  const [searchValue, setSearchValue] = React.useState('');
-  const handleValue = (event) => {
-    setSearchValue(event.target.value);
-  };
 
   const theme = createMuiTheme({
     palette: {
@@ -151,94 +150,130 @@ export default function LibraryPage() {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="research">
-        <Search handleValue={handleValue} />
-        <Button
-          onClick={() => closeAll()}
-          id="advance"
-          variant="contained"
-          color="primary"
-        >
-          Advanced Research
-        </Button>
-      </div>
-      {showCat ? (
-        <div className="advancedButtons">
+      <form onSubmit={handleSubmit}>
+        <div className="three-components">
+          <div className="form">
+            <TextField
+              className="search-bar"
+              type="search"
+              value={newBook}
+              placeholder="Search for Books"
+              autoComplete="off"
+              variant="outlined"
+              onChange={handleChange}
+            />
+            <Button
+              className="search-button"
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              ►
+            </Button>
+          </div>
           <Button
-            onClick={() => closeGenre()}
-            id="theme"
+            className="advanced-button"
             variant="contained"
             color="primary"
+            onClick={() => closeAll()}
           >
-            Genre
-          </Button>
-          <Button
-            onClick={() => closePrice()}
-            id="price"
-            variant="contained"
-            color="primary"
-          >
-            Price
-          </Button>
-          <Button
-            onClick={() => closeYear()}
-            id="year"
-            variant="contained"
-            color="primary"
-          >
-            Year
+            Advanced Research
           </Button>
         </div>
-      ) : null}
-      {showGenre ? (
-        <div className="itemList">
-          <FixedSizeList
-            className="list"
-            height={150}
-            itemCount={10}
-            itemSize={35}
-            width={700}
-          >
-            {genreList}
-          </FixedSizeList>
-        </div>
-      ) : null}
-      {showPrice ? (
-        <div className="itemList">
-          <FixedSizeList
-            className="list"
-            height={150}
-            itemCount={20}
-            itemSize={35}
-            width={700}
-          >
-            {Price}
-          </FixedSizeList>
-        </div>
-      ) : null}
-      {showYear ? (
-        <div className="itemList">
-          <FixedSizeList
-            className="list"
-            height={150}
-            itemCount={22}
-            itemSize={35}
-            width={700}
-          >
-            {Year}
-          </FixedSizeList>
-        </div>
-      ) : null}
+        {showCat ? (
+          <div className="advancedButtons">
+            <Button
+              id="theme"
+              variant="contained"
+              color="primary"
+              onClick={() => closeGenre()}
+            >
+              Genre
+            </Button>
+            <Button
+              id="price"
+              variant="contained"
+              color="primary"
+              onClick={() => closePrice()}
+            >
+              Price
+            </Button>
+            <Button
+              id="year"
+              variant="contained"
+              color="primary"
+              onClick={() => closeYear()}
+            >
+              Year
+            </Button>
+          </div>
+        ) : null}
+        {showGenre ? (
+          <div className="itemList">
+            <FixedSizeList
+              className="list"
+              height={150}
+              itemCount={10}
+              itemSize={35}
+              width={700}
+            >
+              {genreList}
+            </FixedSizeList>
+          </div>
+        ) : null}
+        {showPrice ? (
+          <div className="itemList">
+            <FixedSizeList
+              className="list"
+              height={150}
+              itemCount={20}
+              itemSize={35}
+              width={700}
+            >
+              {Price}
+            </FixedSizeList>
+          </div>
+        ) : null}
+        {showYear ? (
+          <div className="itemList">
+            <FixedSizeList
+              className="list"
+              height={150}
+              itemCount={22}
+              itemSize={35}
+              width={700}
+            >
+              {Year}
+            </FixedSizeList>
+          </div>
+        ) : null}
+      </form>
       <div className="books">
-        {books
-          .filter(
-            (book) =>
-              book.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-              book.author.toLowerCase().includes(searchValue.toLowerCase())
+        {result.map((book) =>
+          book.volumeInfo.imageLinks === undefined ? null : (
+            <img
+              key={book.id}
+              src={`${book.volumeInfo.imageLinks.thumbnail}`}
+              alt={book.title}
+            />
           )
-          .map((book) => (
-            <img key={book.id} src={book.url} alt={book.name} />
-          ))}
+        )}
+      </div>
+      <div className="books-number">
+        <select className="select-number" onChange={handleChangeMaxResult}>
+          <option id="number" value={maxResult.maxValue1}>
+            10
+          </option>
+          <option id="number" value={maxResult.maxValue2}>
+            20
+          </option>
+          <option id="number" value={maxResult.maxValue3}>
+            30
+          </option>
+          <option id="number" value={maxResult.maxValue4}>
+            40
+          </option>
+        </select>
       </div>
     </MuiThemeProvider>
   );
