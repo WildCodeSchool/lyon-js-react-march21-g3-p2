@@ -44,11 +44,11 @@ export default function LibraryPage() {
   // const [newSubject, setNewSubject] = useState(genre);
   const [result, setResult] = useState([]);
   const [maxResult, setMaxResult] = useState(newMax.maxValue1);
-  const [apiKey] = useState('AIzaSyDRBKFo-QL8Zw3Tw5ga7kPulKFMFxxtkQQ');
   const [showCat, setShowCat] = useState(false);
   const [showGenre, setShowGenre] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
   const [showYear, setShowYear] = useState(false);
+  const API_KEY = process.env.REACT_APP_BOOK_API_KEY;
 
   const handleChange = (e) => {
     setNewBook(e.target.value);
@@ -69,7 +69,7 @@ export default function LibraryPage() {
             'https://www.googleapis.com/books/v1/volumes?q=' +
               newBook +
               '&key=' +
-              apiKey +
+              API_KEY +
               '&maxResults=' +
               maxResult
           )
