@@ -1,0 +1,66 @@
+/* FAVORITE SECTION */
+
+.favoriteContainer {
+  background-color: white;
+  padding: 50px 0;
+  width: 1500px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.favoriteContainer h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 3em;
+  color: #333355;
+  margin-left: 25px;
+}
+
+.booksFavorite {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.booksFavorite img {
+  width: 250px;
+  height: auto;
+  cursor: pointer;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+@media screen and (max-width: 960px) {
+  .favoriteContainer {
+    background-color: white;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .favoriteContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2em;
+    color: #333355;
+    margin-left: 200px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .favoriteContainer {
+    background-color: white;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .favoriteContainer h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1em;
+    color: #333355;
+    margin-left: 100px;
+  }
+}
