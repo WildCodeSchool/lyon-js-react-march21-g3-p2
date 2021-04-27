@@ -16,6 +16,7 @@ import {
   TextField,
   // MenuItem,
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 export default function LibraryPage() {
   const newMax = {
@@ -251,11 +252,12 @@ export default function LibraryPage() {
       <div className="books">
         {result.map((book) =>
           book.volumeInfo.imageLinks === undefined ? null : (
-            <img
-              key={book.id}
-              src={`${book.volumeInfo.imageLinks.thumbnail}`}
-              alt={book.title}
-            />
+            <Link key={book.id} to={`/books/${book.id}`}>
+              <img
+                src={`${book.volumeInfo.imageLinks.thumbnail}`}
+                alt={book.volumeInfo.title}
+              />
+            </Link>
           )
         )}
       </div>
