@@ -1,7 +1,13 @@
+import React from 'react';
+import Form from '../components/Contact';
+import About from '../components/About';
+
 export default function ContactPage() {
   return (
     <>
-      <p>Contact us if you have any questions !</p>
+      <About />
+      <h2>Contact Us</h2>
+      <Form />
     </>
   );
 }

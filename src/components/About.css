@@ -1,0 +1,10 @@
+body {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  color: #333355;
+}
+
+.avatar {
+  display: flex;
+  justify-content: space-around;
+}
