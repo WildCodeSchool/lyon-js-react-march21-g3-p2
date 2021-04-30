@@ -10,18 +10,18 @@ import './ThemeSection.css';
 
 const useStyles = makeStyles({
   card: {
-    width: 300,
+    width: 250,
     height: '100%',
     margin: 50,
     transition: '0.3s',
-    boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+    boxShadow: '1px 1px 5px rgba(0,0,0,0.3)',
     borderRadius: '10px',
     '&:hover': {
-      boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+      boxShadow: '1px 1px 20px 5px rgba(0,0,0,0.3)',
     },
   },
   media: {
-    height: 300,
+    height: 100,
     paddingTop: '100%',
   },
   display: {
@@ -33,7 +33,14 @@ const useStyles = makeStyles({
     textAlign: 'left',
     color: '#ecc39f',
     backgroundColor: 'white',
-    height: '100%',
+    height: 'auto',
+  },
+  themeContainer: {
+    width: 'auto',
+    height: 'auto',
+    marginLeft: 200,
+    marginRight: 200,
+    marginTop: 100,
   },
 });
 
@@ -88,7 +95,7 @@ export default function ThemeSection() {
     },
   ];
   return (
-    <div className="themeContainer">
+    <div className={classes.themeContainer}>
       <h1>THEMES </h1>
 
       <div className={classes.display}>
@@ -101,7 +108,7 @@ export default function ThemeSection() {
                 title={book.name}
               />
               <CardContent className={classes.content}>
-                <Typography variant="h4">{book.name}</Typography>
+                <Typography variant="h5">{book.name}</Typography>
               </CardContent>
             </CardActionArea>
           </Card>
