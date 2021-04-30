@@ -13,7 +13,10 @@ export default function Form() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   console.log(errors);
 
   return (
@@ -51,7 +54,7 @@ export default function Form() {
       <br />
       <input
         style={{ marginTop: 20 }}
-        type="button"
+        type="submit"
         onClick={() => reset()}
         value="Envoyer ma demande"
       />
