@@ -1,102 +1,117 @@
-import './ThemeSection.css';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
+import './ThemeSection.css';
+
+const useStyles = makeStyles({
+  card: {
+    width: 250,
+    height: '100%',
+    margin: 50,
+    transition: '0.3s',
+    boxShadow: '1px 1px 5px rgba(0,0,0,0.3)',
+    borderRadius: '10px',
+    '&:hover': {
+      boxShadow: '1px 1px 20px 5px rgba(0,0,0,0.3)',
+    },
+  },
+  media: {
+    height: 100,
+    paddingTop: '100%',
+  },
+  display: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexFlow: 'wrap',
+  },
+  content: {
+    textAlign: 'left',
+    color: '#ecc39f',
+    backgroundColor: 'white',
+    height: 'auto',
+  },
+  themeContainer: {
+    width: 'auto',
+    height: 'auto',
+    marginLeft: 200,
+    marginRight: 200,
+    marginTop: 100,
+  },
+});
 
 export default function ThemeSection() {
+  const classes = useStyles();
   const themeBooks = [
     {
       id: 1,
-      name: 'My Hero Academia',
+      name: 'Aventure',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
-      author: 'Kōhei Horikoshi',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Superhero',
-      },
     },
     {
       id: 2,
-      name: 'Attack On Titans',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81E7fve1HbL.jpg',
-      author: 'Hajime Isayama',
-      genre: {
-        genre_1: 'Action',
-        genre_2: 'Dark fantasy',
-        genre_3: 'Post-apocalyptic',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 3,
-      name: 'Quintessential Quintuplets',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81C5msmPz1L.jpg',
-      author: 'Negi Haruba',
-      genre: {
-        genre_1: 'Harem',
-        genre_2: 'Romantic comedy',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 4,
-      name: 'One Piece',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/91WAjehGfFL.jpg',
-      author: 'Eiichiro Oda',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 5,
-      name: 'Naruto',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/91D9z2WL3WL.jpg',
-      author: 'Masashi Kishimoto',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy comedy',
-        genre_3: 'Martial arts',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 6,
-      name: 'Dragon Ball Super',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/913g8zhpCYL.jpg',
-      author: 'Akira Toriyama',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Martial arts',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 7,
-      name: 'Dragon Ball Super',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/913g8zhpCYL.jpg',
-      author: 'Akira Toriyama',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Martial arts',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
+
     {
       id: 8,
-      name: 'Dragon Ball Super',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/913g8zhpCYL.jpg',
-      author: 'Akira Toriyama',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Martial arts',
-      },
+      name: 'nom du thème',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
   ];
-
   return (
-    <div className="themeContainer">
+    <div className={classes.themeContainer}>
       <h1>THEMES </h1>
-      <div className="booksTheme">
+
+      <div className={classes.display}>
         {themeBooks.map((book) => (
-          <img key={book.id} src={book.url} alt={book.name} />
+          <Card className={classes.card} key={book.id}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image={book.url}
+                title={book.name}
+              />
+              <CardContent className={classes.content}>
+                <Typography variant="h5">{book.name}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         ))}
       </div>
     </div>

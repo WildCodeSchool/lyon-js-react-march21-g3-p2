@@ -6,7 +6,7 @@ export default function HeroSection() {
     <div>
       <div className="heroContainer"> </div>
       <div className="catchphraseContainer">
-        <h1>Phrase d'accroche</h1>
+        <h2>Phrase d'accroche</h2>
       </div>
     </div>
   );

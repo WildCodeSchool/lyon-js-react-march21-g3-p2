@@ -1,59 +1,83 @@
 import './FavoriteSection.css';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles({
+  card: {
+    width: 250,
+    height: '100%',
+    margin: 50,
+    transition: '0.3s',
+    boxShadow: '1px 1px 5px rgba(0,0,0,0.3)',
+    borderRadius: '10px',
+    '&:hover': {
+      boxShadow: '1px 1px 20px 5px rgba(0,0,0,0.3)',
+    },
+  },
+  media: {
+    height: 100,
+    paddingTop: '100%',
+  },
+  display: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexFlow: 'wrap',
+  },
+  content: {
+    textAlign: 'left',
+    color: '#ecc39f',
+    backgroundColor: 'white',
+    height: 'auto',
+  },
+  favoriteContainer: {
+    width: 'auto',
+    height: 'auto',
+    marginLeft: 200,
+    marginRight: 200,
+    marginTop: 100,
+  },
+});
 
 export default function FavoriteSection() {
-  const favoriteBooks = [
-    {
-      id: 1,
-      name: 'My Hero Academia',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
-      author: 'Kōhei Horikoshi',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-        genre_3: 'Superhero',
-      },
-    },
-    {
-      id: 2,
-      name: 'Attack On Titans',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81E7fve1HbL.jpg',
-      author: 'Hajime Isayama',
-      genre: {
-        genre_1: 'Action',
-        genre_2: 'Dark fantasy',
-        genre_3: 'Post-apocalyptic',
-      },
-    },
-    {
-      id: 3,
-      name: 'Quintessential Quintuplets',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/81C5msmPz1L.jpg',
-      author: 'Negi Haruba',
-      genre: {
-        genre_1: 'Harem',
-        genre_2: 'Romantic comedy',
-      },
-    },
-    {
-      id: 4,
-      name: 'One Piece',
-      url: 'https://images-na.ssl-images-amazon.com/images/I/91WAjehGfFL.jpg',
-      author: 'Eiichiro Oda',
-      genre: {
-        genre_1: 'Adventure',
-        genre_2: 'Fantasy',
-      },
-    },
-  ];
+  const classes = useStyles();
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        'https://www.googleapis.com/books/v1/volumes?q=HarryPotter&maxResults=4'
+      )
+      .then((res) => {
+        setResult(res.data.items);
+      });
+  }, []);
 
   return (
-    <div className="favoriteContainer">
+    <div className={classes.favoriteContainer}>
       <h1> COUPS DE COEUR</h1>
-      <div className="booksFavorite">
-        {favoriteBooks.map((book) => (
-          <img key={book.id} src={book.url} alt={book.name} />
-        ))}
+      <div className={classes.display}>
+        {result.map((book) =>
+          book.volumeInfo.imageLinks === undefined ? null : (
+            <Card className={classes.card} key={book.id}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={book.volumeInfo.imageLinks.thumbnail}
+                  title={book.title}
+                />
+                <CardContent className={classes.content}>
+                  <Typography variant="h5">{book.volumeInfo.title}</Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          )
+        )}
       </div>
     </div>
   );
