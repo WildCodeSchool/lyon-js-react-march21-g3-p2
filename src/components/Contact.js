@@ -3,61 +3,67 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import './contact-us.css';
+// eslint-disable-next-line import/no-unresolved
 import { TextField } from '@material-ui/core';
+import axios from 'axios';
 
 export default function Form() {
+  // eslint-disable-next-line prettier/prettier
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // eslint-disable-next-line no-alert
   const onSubmit = (data) => {
-    console.log(data);
+    axios
+      .post(`${process.env.REACT_APP_API_BASE_URL}/contact`, data)
+      .then(() => {
+        // eslint-disable-next-line no-alert
+        window.alert('Votre message a bien été envoyé');
+      });
   };
 
   console.log(errors);
 
   return (
-    <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="on" onSubmit={handleSubmit(onSubmit)}>
       <div id="name">
         <TextField
           id="outlined-basic1"
           label="Prénom"
           variant="outlined"
-          {...register('prenom', { required: true })}
+          {...register('firstname', { required: true })}
         />
-        {errors.firstName && 'Surname is required'}
+        {errors.prenom && 'First name is required'}
         <br />
         <TextField
           id="outlined-basic2"
           label="Nom"
           variant="outlined"
-          {...register('Nom', { required: true })}
+          {...register('lastname', { required: true })}
         />
+        {errors.Nom && 'Last name is required'}
         <br />
         <TextField
           id="outlined-basic3"
           label="Numéro de téléphone"
           variant="outlined"
-          {...register('number', { required: true })}
+          {...register('phonenumber', { required: true })}
         />
+        {errors.number && 'Phone number is required'}
       </div>
       <br />
       <TextField
         id="outlined-basic4"
         label="Commentaire"
         variant="outlined"
-        {...register('comment', { required: true })}
+        {...register('comment', { required: false })}
       />
+      {errors.comment && 'Comment is required'}
       <br />
-      <input
-        style={{ marginTop: 20 }}
-        type="submit"
-        onClick={() => reset()}
-        value="Envoyer ma demande"
-      />
+      <input style={{ marginTop: 20 }} type="submit" value="Send" />
     </form>
   );
 }
