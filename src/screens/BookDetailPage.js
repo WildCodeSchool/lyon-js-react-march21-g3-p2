@@ -30,7 +30,7 @@ function BookDetailPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/books/${id}/reviews`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/books/${id}/reviews`)
       .then((res) => setReviewList(res.data))
       .catch((err) => console.log(err));
   }, [id]);
