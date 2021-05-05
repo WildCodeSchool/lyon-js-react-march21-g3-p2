@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
 /* eslint-disable prefer-template */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import qs from 'query-string';
 import Button from '@material-ui/core/Button';
@@ -109,11 +109,13 @@ export default function LibraryPage() {
     maxResult4: 40,
   };
 
+  const { theme } = useParams();
+
   const [searchValue, setSearchValue] = useState('');
   const [resultValue, setResultValue] = useState([]);
   const [displayCategories, setDisplayCategories] = useState(false);
-  const [themeValue, setThemeValue] = useState(themesTemplate.theme1);
-  const [yearValue, setYearValue] = useState(yearsTemplate.year1);
+  const [themeValue, setThemeValue] = useState('');
+  const [yearValue, setYearValue] = useState('');
   const [maxResultValue, setMaxResultValue] = useState(
     maxResultsTemplate.maxResult1
   );
@@ -125,21 +127,58 @@ export default function LibraryPage() {
   const handleChangeSearchValue = (e) => {
     setSearchValue(e.target.value);
   };
-  const handleChangeThemeValue = (e) => {
-    setThemeValue(e.target.value);
-  };
-  const handleChangeYearValue = (e) => {
-    setYearValue(e.target.value);
-  };
   const handleChangeMaxResultValue = (e) => {
     setMaxResultValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (theme) {
+      setThemeValue(theme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const searchTerms = [];
+    const searchResults = [];
+
+    if (themeValue) {
+      searchTerms.push(themeValue);
+    }
+
+    if (yearValue) {
+      searchTerms.push(yearValue);
+    }
+
+    if (maxResultValue) {
+      searchResults.push(maxResultValue);
+    }
+
+    if (searchTerms?.length) {
+      const queryString = qs.stringify(
+        { themeValue },
+        { skipEmptyString: true }
+      );
+      axios
+        .get(
+          'https://www.googleapis.com/books/v1/volumes?q=' +
+            searchTerms.join('+') +
+            '&key=' +
+            API_KEY +
+            '&maxResults=' +
+            searchResults
+        )
+        .then((res) => {
+          setResultValue(res.data.items);
+          history.push('/' + queryString ? `?${queryString}` : '');
+        });
+    }
+  }, [themeValue, yearValue, maxResultValue]);
 
   const handleSubmitSearchValue = (e) => {
     e.preventDefault();
     axios
       .get(
-        'https://www.googleapis.com/books/v1/volumes?q=' +
+        'https://www.googleapis.com/books/v1/volumes?q=Search' +
           searchValue +
           '&key=' +
           API_KEY +
@@ -152,49 +191,15 @@ export default function LibraryPage() {
     setSearchValue('');
   };
 
-  const handleSubmitThemeValue = (e) => {
-    e.preventDefault();
-    const theme = themeValue;
-    const queryString = qs.stringify({ theme }, { skipEmptyString: true });
-    axios
-      .get(
-        'https://www.googleapis.com/books/v1/volumes?q=' +
-          theme +
-          '&key=' +
-          API_KEY +
-          '&maxResults=' +
-          maxResultValue
-      )
-      .then((res) => {
-        setResultValue(res.data.items);
-        history.push('/' + queryString ? `?${queryString}` : '');
-      });
-  };
-
-  const handleSubmitYearValue = (e) => {
-    e.preventDefault();
-    const year = yearValue;
-    const queryString = qs.stringify({ year }, { skipEmptyString: true });
-    axios
-      .get(
-        'https://www.googleapis.com/books/v1/volumes?q=' +
-          year +
-          '&key=' +
-          API_KEY +
-          '&maxResults=' +
-          maxResultValue
-      )
-      .then((res) => {
-        setResultValue(res.data.items);
-        history.push('/' + queryString ? `?${queryString}` : '');
-      });
-  };
-
   const closeAvancedResearch = () => {
     setDisplayCategories(!displayCategories);
   };
 
-  const theme = createMuiTheme({
+  useEffect(() => {
+    setThemeValue(theme);
+  }, []);
+
+  const muiTheme = createMuiTheme({
     palette: {
       primary: {
         main: '#aa6655',
@@ -206,7 +211,7 @@ export default function LibraryPage() {
   });
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={muiTheme}>
       <form onSubmit={handleSubmitSearchValue}>
         <div className={classes.searchComponents}>
           <div className={classes.formComponents}>
@@ -221,8 +226,9 @@ export default function LibraryPage() {
               onChange={handleChangeSearchValue}
             />
             <Button
+              onClick={() => setSearchValue(TextField.value)}
               className={classes.searchSubmitButton}
-              type="submit"
+              type="button"
               variant="contained"
               color="primary"
             >
@@ -245,7 +251,7 @@ export default function LibraryPage() {
             <FormControl variant="outlined" className="form-theme">
               <Select
                 value={themeValue}
-                onChange={handleChangeThemeValue}
+                onChange={(event) => setThemeValue(event.target.value)}
                 id="select-theme"
               >
                 <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
@@ -263,22 +269,12 @@ export default function LibraryPage() {
                 <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
               </Select>
             </FormControl>
-            <form onSubmit={handleSubmitThemeValue}>
-              <Button
-                className={classes.themeSubmitButton}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                ►
-              </Button>
-            </form>
           </div>
           <div className={classes.yearSelect}>
             <FormControl variant="outlined" className="form-year">
               <Select
                 value={yearValue}
-                onChange={handleChangeYearValue}
+                onChange={(event) => setYearValue(event.target.value)}
                 id="select-year"
               >
                 <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
@@ -288,16 +284,6 @@ export default function LibraryPage() {
                 <MenuItem value={yearsTemplate.year5}>2023</MenuItem>
               </Select>
             </FormControl>
-            <form onSubmit={handleSubmitYearValue}>
-              <Button
-                className={classes.yearSubmitButton}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                ►
-              </Button>
-            </form>
           </div>
         </div>
       ) : null}
