@@ -12,10 +12,11 @@ import {
   TextField,
   MenuItem,
   makeStyles,
+  InputLabel,
 } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   searchComponents: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -30,13 +31,12 @@ const useStyles = makeStyles(() => ({
     height: 'auto',
     backgroundColor: 'white',
     borderRadius: '4px',
+    [theme.breakpoints.down('sm')]: {
+      width: '200px',
+    },
   },
   searchSubmitButton: {
     width: 'auto',
-    height: 'auto',
-  },
-  advancedButton: {
-    width: '300px',
     height: 'auto',
   },
   advancedButtonComponents: {
@@ -44,10 +44,10 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-evenly',
   },
   themeSelect: {
-    display: 'flex',
+    width: '100px',
   },
   yearSelect: {
-    display: 'flex',
+    width: '80px',
   },
   maxResultSelect: {
     display: 'flex',
@@ -113,7 +113,6 @@ export default function LibraryPage() {
 
   const [searchValue, setSearchValue] = useState('');
   const [resultValue, setResultValue] = useState([]);
-  const [displayCategories, setDisplayCategories] = useState(false);
   const [themeValue, setThemeValue] = useState('');
   const [yearValue, setYearValue] = useState('');
   const [maxResultValue, setMaxResultValue] = useState(
@@ -191,10 +190,6 @@ export default function LibraryPage() {
     setSearchValue('');
   };
 
-  const closeAvancedResearch = () => {
-    setDisplayCategories(!displayCategories);
-  };
-
   useEffect(() => {
     setThemeValue(theme);
   }, []);
@@ -235,58 +230,48 @@ export default function LibraryPage() {
               ►
             </Button>
           </div>
-          <Button
-            className={classes.advancedButton}
-            variant="contained"
-            color="primary"
-            onClick={() => closeAvancedResearch()}
-          >
-            Advanced Research
-          </Button>
         </div>
       </form>
-      {displayCategories ? (
-        <div className={classes.advancedButtonComponents}>
-          <div className={classes.themeSelect}>
-            <FormControl variant="outlined" className="form-theme">
-              <Select
-                value={themeValue}
-                onChange={(event) => setThemeValue(event.target.value)}
-                id="select-theme"
-              >
-                <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
-                <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
-                <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
-                <MenuItem value={themesTemplate.theme4}>Business</MenuItem>
-                <MenuItem value={themesTemplate.theme5}>Computers</MenuItem>
-                <MenuItem value={themesTemplate.theme6}>Education</MenuItem>
-                <MenuItem value={themesTemplate.theme7}>Fiction</MenuItem>
-                <MenuItem value={themesTemplate.theme8}>History</MenuItem>
-                <MenuItem value={themesTemplate.theme9}>Law</MenuItem>
-                <MenuItem value={themesTemplate.theme10}>Mathematics</MenuItem>
-                <MenuItem value={themesTemplate.theme11}>Medical</MenuItem>
-                <MenuItem value={themesTemplate.theme12}>Music</MenuItem>
-                <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className={classes.yearSelect}>
-            <FormControl variant="outlined" className="form-year">
-              <Select
-                value={yearValue}
-                onChange={(event) => setYearValue(event.target.value)}
-                id="select-year"
-              >
-                <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
-                <MenuItem value={yearsTemplate.year2}>2012</MenuItem>
-                <MenuItem value={yearsTemplate.year3}>2018</MenuItem>
-                <MenuItem value={yearsTemplate.year4}>2021</MenuItem>
-                <MenuItem value={yearsTemplate.year5}>2023</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        </div>
-      ) : null}
+      <div className={classes.advancedButtonComponents}>
+        <FormControl variant="outlined" className="form-theme">
+          <InputLabel id="input-theme">Theme</InputLabel>
+          <Select
+            value={themeValue}
+            onChange={(event) => setThemeValue(event.target.value)}
+            className={classes.themeSelect}
+            label="Theme"
+          >
+            <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
+            <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
+            <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
+            <MenuItem value={themesTemplate.theme4}>Business</MenuItem>
+            <MenuItem value={themesTemplate.theme5}>Computers</MenuItem>
+            <MenuItem value={themesTemplate.theme6}>Education</MenuItem>
+            <MenuItem value={themesTemplate.theme7}>Fiction</MenuItem>
+            <MenuItem value={themesTemplate.theme8}>History</MenuItem>
+            <MenuItem value={themesTemplate.theme9}>Law</MenuItem>
+            <MenuItem value={themesTemplate.theme10}>Mathematics</MenuItem>
+            <MenuItem value={themesTemplate.theme11}>Medical</MenuItem>
+            <MenuItem value={themesTemplate.theme12}>Music</MenuItem>
+            <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" className="form-year">
+          <InputLabel id="input-year">Year</InputLabel>
+          <Select
+            value={yearValue}
+            onChange={(event) => setYearValue(event.target.value)}
+            className={classes.yearSelect}
+            label="Year"
+          >
+            <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
+            <MenuItem value={yearsTemplate.year2}>2012</MenuItem>
+            <MenuItem value={yearsTemplate.year3}>2018</MenuItem>
+            <MenuItem value={yearsTemplate.year4}>2021</MenuItem>
+            <MenuItem value={yearsTemplate.year5}>2023</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div className={classes.resultComponents}>
         {resultValue.map((result) =>
           result.volumeInfo.imageLinks === undefined ? null : (
