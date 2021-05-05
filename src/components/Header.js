@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import './Header.css';
 
@@ -11,6 +11,9 @@ export default function Header() {
     <header>
       <nav>
         <img src={Logo} alt="logo" />
+        <Link to="/">
+          <img src={Logo} alt="logo" />
+        </Link>
         <ul>
           <li>
             <NavLink exact to="/">
