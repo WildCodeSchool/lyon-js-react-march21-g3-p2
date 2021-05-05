@@ -10,7 +10,6 @@ export default function Header() {
   return (
     <header>
       <nav>
-        <img src={Logo} alt="logo" />
         <Link to="/">
           <img src={Logo} alt="logo" />
         </Link>
