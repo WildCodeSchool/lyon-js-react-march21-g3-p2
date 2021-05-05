@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -46,71 +47,100 @@ const useStyles = makeStyles({
 
 export default function ThemeSection() {
   const classes = useStyles();
+
   const themeBooks = [
     {
       id: 1,
-      name: 'Aventure',
+      name: 'Architecture',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
     {
       id: 2,
-      name: 'nom du thème',
+      name: 'Art',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 3,
-      name: 'nom du thème',
+      name: 'Biogrpahie',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 4,
-      name: 'nom du thème',
+      name: 'Business',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 5,
-      name: 'nom du thème',
+      name: 'Computers',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 6,
-      name: 'nom du thème',
+      name: 'Education',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 7,
-      name: 'nom du thème',
+      name: 'Fiction',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
 
     {
       id: 8,
-      name: 'nom du thème',
+      name: 'History',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
+    },
+    {
+      id: 9,
+      name: 'Law',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
+    },
+    {
+      id: 10,
+      name: 'Mathematics',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
+    },
+    {
+      id: 11,
+      name: 'Medical',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
+    },
+    {
+      id: 12,
+      name: 'Music',
+      url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
+    },
+    {
+      id: 13,
+      name: 'Philosophy',
       url: 'https://images-na.ssl-images-amazon.com/images/I/81chNo+roXL.jpg',
     },
   ];
+
   return (
     <div className={classes.themeContainer}>
       <h1>THEMES </h1>
 
       <div className={classes.display}>
-        {themeBooks.map((book) => (
-          <Card className={classes.card} key={book.id}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={book.url}
-                title={book.name}
-              />
-              <CardContent className={classes.content}>
-                <Typography variant="h5">{book.name}</Typography>
-              </CardContent>
-            </CardActionArea>
+        {themeBooks.map((theme) => (
+          <Card className={classes.card} key={theme.id}>
+            <Link to={`/library/${theme.name}`}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image={theme.url}
+                  title={theme.name}
+                />
+                <CardContent className={classes.content}>
+                  <Typography variant="h5">{theme.name}</Typography>
+                </CardContent>
+              </CardActionArea>
+            </Link>
           </Card>
         ))}
       </div>
