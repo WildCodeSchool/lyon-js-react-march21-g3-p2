@@ -10,6 +10,7 @@ export default function Main() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/library" component={LibraryPage} />
+        <Route exact path="/library/:theme" component={LibraryPage} />
         <Route exact path="/books/:id" component={BookDetailPage} />
         <Route exact path="/contact" component={ContactPage} />
       </Switch>
