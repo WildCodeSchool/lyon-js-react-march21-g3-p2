@@ -9,8 +9,8 @@ body {
   margin-bottom: 13px;
   margin-top: 20px;
   color: white;
-  font-size: 10px;
-  font-weight: 100;
+  font-size: 14px;
+  font-weight: 200;
 }
 
 #name {
@@ -31,7 +31,6 @@ input {
   justify-content: center;
   background: #333355;
   color: #ecc39f;
-  text-transform: uppercase;
   border: none;
   margin-top: 40px;
   padding: 20px;
@@ -39,12 +38,17 @@ input {
   font-size: 16px;
   font-weight: 100;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
-div #name {
-  font-size: 10px;
-  color: red;
-}
-
-TextField #outlined-basic4 {
+@media all and (max-width: 700px) {
+  #name {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+  }
+  #outlined-basic4 {
+    width: 375px;
+  }
 }

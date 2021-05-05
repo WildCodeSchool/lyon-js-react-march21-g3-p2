@@ -1,5 +1,8 @@
 import React from 'react';
-import Avatar from '../img/avatar.png';
+import Priscilia from '../img/priscilia.jpg';
+import Benoit from '../img/benoit.jpeg';
+import Ornella from '../img/ornella.jpg';
+import Brandon from '../img/brandon.jpeg';
 import './About.css';
 
 export default function About() {
@@ -8,19 +11,19 @@ export default function About() {
       <h2>About Us</h2>
       <div className="avatar">
         <div>
-          <img src={Avatar} alt="avatar" width="100" />
+          <img src={Brandon} alt="avatar" width="100" />
           <p>Brandon</p>
         </div>
         <div>
-          <img src={Avatar} alt="avatar" width="100" />
+          <img src={Benoit} alt="avatar" width="100" />
           <p>Benoit</p>
         </div>
         <div>
-          <img src={Avatar} alt="avatar" width="100" />
+          <img src={Priscilia} alt="avatar" width="100" />
           <p>Priscilia</p>
         </div>
         <div>
-          <img src={Avatar} alt="avatar" width="100" />
+          <img src={Ornella} alt="avatar" width="100" />
           <p>Ornella</p>
         </div>
       </div>

@@ -15,8 +15,8 @@ export default function Form() {
     formState: { errors },
   } = useForm();
 
-  // eslint-disable-next-line no-alert
-  const onSubmit = (data) => {
+  const onSubmit = (data, e) => {
+    e.target.reset();
     axios
       .post(`${process.env.REACT_APP_API_BASE_URL}/contact`, data)
       .then(() => {
