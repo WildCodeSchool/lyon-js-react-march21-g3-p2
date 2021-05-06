@@ -75,6 +75,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexFlow: 'wrap',
+    [theme.breakpoints.down('md')]: {
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'center',
+    },
   },
   content: {
     backgroundColor: 'white',
