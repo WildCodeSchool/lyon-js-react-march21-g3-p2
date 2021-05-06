@@ -1,143 +1,214 @@
 /* eslint-disable no-alert */
 /* eslint-disable prefer-template */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
+import qs from 'query-string';
 import Button from '@material-ui/core/Button';
-import { FixedSizeList } from 'react-window';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import './Library.css';
 import {
-  // FormControl,
-  // InputLabel,
-  // Select,
+  FormControl,
+  Select,
   TextField,
-  // MenuItem,
+  MenuItem,
+  makeStyles,
+  InputLabel,
 } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  searchComponents: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    padding: '100px',
+  },
+  formComponents: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  searchBar: {
+    width: '700px',
+    height: 'auto',
+    backgroundColor: 'white',
+    borderRadius: '4px',
+    [theme.breakpoints.down('sm')]: {
+      width: '200px',
+    },
+  },
+  searchSubmitButton: {
+    width: 'auto',
+    height: 'auto',
+  },
+  advancedButtonComponents: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+  },
+  themeSelect: {
+    width: '100px',
+  },
+  yearSelect: {
+    width: '80px',
+  },
+  maxResultSelect: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  themeSubmitButton: {
+    width: 'auto',
+    height: '100%',
+  },
+  yearSubmitButton: {
+    width: 'auto',
+    height: '100%',
+  },
+  resultComponents: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    flexFlow: 'wrap',
+    padding: '100px',
+  },
+  resultImages: {
+    width: 'auto',
+    height: '200px',
+    margin: '10px',
+    cursor: 'pointer',
+  },
+}));
 
 export default function LibraryPage() {
-  const newMax = {
-    maxValue1: 10,
-    maxValue2: 20,
-    maxValue3: 30,
-    maxValue4: 40,
+  const classes = useStyles();
+
+  const themesTemplate = {
+    theme1: 'Architecture',
+    theme2: 'Art',
+    theme3: 'Biography',
+    theme4: 'Business',
+    theme5: 'Computers',
+    theme6: 'Education',
+    theme7: 'Fiction',
+    theme8: 'History',
+    theme9: 'Law',
+    theme10: 'Mathematics',
+    theme11: 'Medical',
+    theme12: 'Music',
+    theme13: 'Philosophy',
   };
 
-  const genre = {
-    theme: [
-      'Adventure',
-      'Fantasy',
-      'Superhero',
-      'Action',
-      'Dark fantasy',
-      'Post-apocalyptic',
-      'Harem',
-      'Romantic comedy',
-      'Fantasy comedy',
-      'Martial arts',
-    ],
+  const yearsTemplate = {
+    year1: 1999,
+    year2: 2000,
+    year3: 2001,
+    year4: 2002,
+    year5: 2003,
+    year6: 2004,
+    year7: 2005,
+    year8: 2006,
+    year9: 2007,
+    year10: 2008,
+    year11: 2009,
+    year12: 2010,
+    year13: 2011,
+    year14: 2012,
+    year15: 2013,
+    year16: 2014,
+    year17: 2015,
+    year18: 2016,
+    year19: 2017,
+    year20: 2018,
+    year21: 2019,
+    year22: 2020,
+    year23: 2021,
   };
 
-  const [newBook, setNewBook] = useState('');
-  // const [newSubject, setNewSubject] = useState(genre);
-  const [result, setResult] = useState([]);
-  const [maxResult, setMaxResult] = useState(newMax.maxValue1);
-  const [showCat, setShowCat] = useState(false);
-  const [showGenre, setShowGenre] = useState(false);
-  const [showPrice, setShowPrice] = useState(false);
-  const [showYear, setShowYear] = useState(false);
+  const maxResultsTemplate = {
+    maxResult1: 10,
+    maxResult2: 20,
+    maxResult3: 30,
+    maxResult4: 40,
+  };
+
+  const { theme } = useParams();
+
+  const [searchValue, setSearchValue] = useState('');
+  const [resultValue, setResultValue] = useState([]);
+  const [themeValue, setThemeValue] = useState('');
+  const [yearValue, setYearValue] = useState('');
+  const [maxResultValue, setMaxResultValue] = useState(
+    maxResultsTemplate.maxResult1
+  );
+
   const API_KEY = process.env.REACT_APP_BOOK_API_KEY;
 
-  const handleChange = (e) => {
-    setNewBook(e.target.value);
-  };
-  const handleChangeMaxResult = (e) => {
-    setMaxResult(e.target.value);
-  };
-  /* const handleNewSubject = (e) => {
-    setNewSubject(e.target.value);
-  }; */
+  const history = useHistory();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    !newBook
-      ? alert('Nothing is defined !')
-      : axios
-          .get(
-            'https://www.googleapis.com/books/v1/volumes?q=' +
-              newBook +
-              '&key=' +
-              API_KEY +
-              '&maxResults=' +
-              maxResult
-          )
-          .then((res) => {
-            setResult(res.data.items);
-          });
-    setNewBook('');
+  const handleChangeSearchValue = (e) => {
+    setSearchValue(e.target.value);
+  };
+  const handleChangeMaxResultValue = (e) => {
+    setMaxResultValue(e.target.value);
   };
 
-  /* const handleNewSubjectTest = (e) => {
+  useEffect(() => {
+    if (theme) {
+      setThemeValue(theme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const searchTerms = [];
+    const searchResults = [];
+
+    if (themeValue) {
+      searchTerms.push(themeValue);
+    }
+
+    if (yearValue) {
+      searchTerms.push(yearValue);
+    }
+
+    if (maxResultValue) {
+      searchResults.push(maxResultValue);
+    }
+
+    if (searchTerms?.length) {
+      const queryString = qs.stringify(
+        { themeValue, yearValue },
+        { skipEmptyString: true }
+      );
+      axios
+        .get(
+          'https://www.googleapis.com/books/v1/volumes?q=' +
+            searchTerms.join('+') +
+            '&key=' +
+            API_KEY +
+            '&maxResults=' +
+            searchResults
+        )
+        .then((res) => {
+          setResultValue(res.data.items);
+          history.push('/' + queryString ? `?${queryString}` : '');
+        });
+    }
+  }, [themeValue, yearValue, maxResultValue]);
+
+  const handleSubmitSearchValue = (e) => {
     e.preventDefault();
     axios
       .get(
-        'https://www.googleapis.com/books/v1/volumes?q=subject:' +
-          newSubject +
+        'https://www.googleapis.com/books/v1/volumes?q=' +
+          searchValue +
           '&key=' +
-          apiKey +
+          API_KEY +
           '&maxResults=' +
-          maxResult
+          maxResultValue
       )
       .then((res) => {
-        setResult(res.data.items);
+        setResultValue(res.data.items);
       });
-  }; */
-
-  const closeAll = () => {
-    setShowCat(!showCat);
-    setShowGenre(false);
-    setShowPrice(false);
-    setShowYear(false);
-  };
-  const closeGenre = () => {
-    setShowGenre(!showGenre);
-    setShowPrice(false);
-    setShowYear(false);
-  };
-  const closePrice = () => {
-    setShowPrice(!showPrice);
-    setShowGenre(false);
-    setShowYear(false);
-  };
-  const closeYear = () => {
-    setShowYear(!showYear);
-    setShowPrice(false);
-    setShowGenre(false);
+    setSearchValue('');
   };
 
-  const genreList = ({ index, style }) => (
-    <ListItem button style={style} key={index} id="item">
-      <ListItemText
-        primary={genre.theme[index]}
-        // value={newSubject}
-        // onClick={handleNewSubjectTest}
-      />
-    </ListItem>
-  );
-  const Price = ({ index, style }) => (
-    <div id="item" style={style}>
-      {index + 1}$
-    </div>
-  );
-  const Year = ({ index, style }) => (
-    <div id="item" style={style}>
-      {index > 9 ? 20 + [index] : 200 + [index]}
-    </div>
-  );
-
-  const theme = createMuiTheme({
+  const muiTheme = createMuiTheme({
     palette: {
       primary: {
         main: '#aa6655',
@@ -149,131 +220,117 @@ export default function LibraryPage() {
   });
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <form onSubmit={handleSubmit}>
-        <div className="three-components">
-          <div className="form">
+    <MuiThemeProvider theme={muiTheme}>
+      <form onSubmit={handleSubmitSearchValue}>
+        <div className={classes.searchComponents}>
+          <div className={classes.formComponents}>
             <TextField
-              className="search-bar"
+              className={classes.searchBar}
               type="search"
-              value={newBook}
+              value={searchValue}
               placeholder="Search for Books"
               autoComplete="off"
+              required
               variant="outlined"
-              onChange={handleChange}
+              onChange={handleChangeSearchValue}
             />
             <Button
-              className="search-button"
-              type="submit"
+              className={classes.searchSubmitButton}
+              type="button"
               variant="contained"
               color="primary"
             >
               ►
             </Button>
           </div>
-          <Button
-            className="advanced-button"
-            variant="contained"
-            color="primary"
-            onClick={() => closeAll()}
-          >
-            Advanced Research
-          </Button>
         </div>
-        {showCat ? (
-          <div className="advancedButtons">
-            <Button
-              id="theme"
-              variant="contained"
-              color="primary"
-              onClick={() => closeGenre()}
-            >
-              Genre
-            </Button>
-            <Button
-              id="price"
-              variant="contained"
-              color="primary"
-              onClick={() => closePrice()}
-            >
-              Price
-            </Button>
-            <Button
-              id="year"
-              variant="contained"
-              color="primary"
-              onClick={() => closeYear()}
-            >
-              Year
-            </Button>
-          </div>
-        ) : null}
-        {showGenre ? (
-          <div className="itemList">
-            <FixedSizeList
-              className="list"
-              height={150}
-              itemCount={10}
-              itemSize={35}
-              width={700}
-            >
-              {genreList}
-            </FixedSizeList>
-          </div>
-        ) : null}
-        {showPrice ? (
-          <div className="itemList">
-            <FixedSizeList
-              className="list"
-              height={150}
-              itemCount={20}
-              itemSize={35}
-              width={700}
-            >
-              {Price}
-            </FixedSizeList>
-          </div>
-        ) : null}
-        {showYear ? (
-          <div className="itemList">
-            <FixedSizeList
-              className="list"
-              height={150}
-              itemCount={22}
-              itemSize={35}
-              width={700}
-            >
-              {Year}
-            </FixedSizeList>
-          </div>
-        ) : null}
       </form>
-      <div className="books">
-        {result.map((book) =>
-          book.volumeInfo.imageLinks === undefined ? null : (
-            <img
-              key={book.id}
-              src={`${book.volumeInfo.imageLinks.thumbnail}`}
-              alt={book.title}
-            />
+      <div className={classes.advancedButtonComponents}>
+        <FormControl variant="outlined" className="form-theme">
+          <InputLabel id="input-theme">Theme</InputLabel>
+          <Select
+            value={themeValue}
+            onChange={(event) => setThemeValue(event.target.value)}
+            className={classes.themeSelect}
+            label="Theme"
+          >
+            <MenuItem value="" />
+            <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
+            <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
+            <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
+            <MenuItem value={themesTemplate.theme4}>Business</MenuItem>
+            <MenuItem value={themesTemplate.theme5}>Computers</MenuItem>
+            <MenuItem value={themesTemplate.theme6}>Education</MenuItem>
+            <MenuItem value={themesTemplate.theme7}>Fiction</MenuItem>
+            <MenuItem value={themesTemplate.theme8}>History</MenuItem>
+            <MenuItem value={themesTemplate.theme9}>Law</MenuItem>
+            <MenuItem value={themesTemplate.theme10}>Mathematics</MenuItem>
+            <MenuItem value={themesTemplate.theme11}>Medical</MenuItem>
+            <MenuItem value={themesTemplate.theme12}>Music</MenuItem>
+            <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" className="form-year">
+          <InputLabel id="input-year">Year</InputLabel>
+          <Select
+            value={yearValue}
+            onChange={(event) => setYearValue(event.target.value)}
+            className={classes.yearSelect}
+            label="Year"
+          >
+            <MenuItem value="" />
+            <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
+            <MenuItem value={yearsTemplate.year2}>2000</MenuItem>
+            <MenuItem value={yearsTemplate.year3}>2001</MenuItem>
+            <MenuItem value={yearsTemplate.year4}>2002</MenuItem>
+            <MenuItem value={yearsTemplate.year5}>2003</MenuItem>
+            <MenuItem value={yearsTemplate.year6}>2004</MenuItem>
+            <MenuItem value={yearsTemplate.year7}>2005</MenuItem>
+            <MenuItem value={yearsTemplate.year8}>2006</MenuItem>
+            <MenuItem value={yearsTemplate.year9}>2007</MenuItem>
+            <MenuItem value={yearsTemplate.year10}>2008</MenuItem>
+            <MenuItem value={yearsTemplate.year11}>2009</MenuItem>
+            <MenuItem value={yearsTemplate.year12}>2010</MenuItem>
+            <MenuItem value={yearsTemplate.year13}>2011</MenuItem>
+            <MenuItem value={yearsTemplate.year14}>2012</MenuItem>
+            <MenuItem value={yearsTemplate.year15}>2013</MenuItem>
+            <MenuItem value={yearsTemplate.year16}>2014</MenuItem>
+            <MenuItem value={yearsTemplate.year17}>2015</MenuItem>
+            <MenuItem value={yearsTemplate.year18}>2016</MenuItem>
+            <MenuItem value={yearsTemplate.year19}>2017</MenuItem>
+            <MenuItem value={yearsTemplate.year20}>2018</MenuItem>
+            <MenuItem value={yearsTemplate.year21}>2019</MenuItem>
+            <MenuItem value={yearsTemplate.year22}>2020</MenuItem>
+            <MenuItem value={yearsTemplate.year23}>2021</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <div className={classes.resultComponents}>
+        {resultValue.map((result) =>
+          result.volumeInfo.imageLinks === undefined ? null : (
+            <Link key={result.id} to={`/books/${result.id}`}>
+              <img
+                className={classes.resultImages}
+                src={`${result.volumeInfo.imageLinks.thumbnail}`}
+                alt={result.volumeInfo.title}
+              />
+            </Link>
           )
         )}
       </div>
-      <div className="books-number">
-        <select className="select-number" onChange={handleChangeMaxResult}>
-          <option id="number" value={maxResult.maxValue1}>
-            10
-          </option>
-          <option id="number" value={maxResult.maxValue2}>
-            20
-          </option>
-          <option id="number" value={maxResult.maxValue3}>
-            30
-          </option>
-          <option id="number" value={maxResult.maxValue4}>
-            40
-          </option>
-        </select>
+      <div className={classes.maxResultSelect}>
+        <FormControl variant="outlined" className="form-theme">
+          <Select
+            value={maxResultValue}
+            onChange={handleChangeMaxResultValue}
+            id="select-max"
+          >
+            <MenuItem value={maxResultsTemplate.maxResult1}>10</MenuItem>
+            <MenuItem value={maxResultsTemplate.maxResult2}>20</MenuItem>
+            <MenuItem value={maxResultsTemplate.maxResult3}>30</MenuItem>
+            <MenuItem value={maxResultsTemplate.maxResult4}>40</MenuItem>
+          </Select>
+        </FormControl>
       </div>
     </MuiThemeProvider>
   );
