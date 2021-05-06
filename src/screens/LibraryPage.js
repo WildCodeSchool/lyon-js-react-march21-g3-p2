@@ -14,6 +14,11 @@ import {
   makeStyles,
   InputLabel,
 } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -62,16 +67,42 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   resultComponents: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexFlow: 'wrap',
-    padding: '100px',
-  },
-  resultImages: {
     width: 'auto',
-    height: '200px',
-    margin: '10px',
-    cursor: 'pointer',
+    height: 'auto',
+    marginLeft: 200,
+    marginRight: 200,
+    marginTop: 100,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexFlow: 'wrap',
+  },
+  content: {
+    backgroundColor: 'white',
+    height: 'auto',
+  },
+  card: {
+    width: 250,
+    height: '100%',
+    margin: 50,
+    transition: '0.3s',
+    boxShadow: '1px 1px 5px rgba(0,0,0,0.3)',
+    borderRadius: '10px',
+    '&:hover': {
+      boxShadow: '1px 1px 20px 5px rgba(0,0,0,0.3)',
+    },
+  },
+  media: {
+    height: 100,
+    paddingTop: '100%',
+  },
+  titrelivre: {
+    color: '#333355',
+    fontFamily: 'Raleway',
+    fontSize: '1.5em',
+    textAlign: 'left',
+  },
+  lien: {
+    textDecoration: 'none',
   },
 }));
 
@@ -219,6 +250,19 @@ export default function LibraryPage() {
     },
   });
 
+  function formatBookTitle(title, maxLength, cutWord) {
+    if (title.length <= maxLength) {
+      return title;
+    }
+
+    const subString = title.substr(0, maxLength - 1);
+
+    return (
+      (cutWord ? subString : subString.substr(0, subString.lastIndexOf(' '))) +
+      '...'
+    );
+  }
+
   return (
     <MuiThemeProvider theme={muiTheme}>
       <form onSubmit={handleSubmitSearchValue}>
@@ -308,13 +352,22 @@ export default function LibraryPage() {
       <div className={classes.resultComponents}>
         {resultValue.map((result) =>
           result.volumeInfo.imageLinks === undefined ? null : (
-            <Link key={result.id} to={`/books/${result.id}`}>
-              <img
-                className={classes.resultImages}
-                src={`${result.volumeInfo.imageLinks.thumbnail}`}
-                alt={result.volumeInfo.title}
-              />
-            </Link>
+            <Card className={classes.card} key={result.id}>
+              <Link className={classes.lien} to={`/books/${result.id}`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={result.volumeInfo.imageLinks.thumbnail}
+                    alt={result.volumeInfo.title}
+                  />
+                  <CardContent className={classes.content}>
+                    <Typography className={classes.titrelivre} variant="h5">
+                      {formatBookTitle(result.volumeInfo.title, 30, false)}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
+            </Card>
           )
         )}
       </div>
