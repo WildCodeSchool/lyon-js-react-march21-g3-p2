@@ -96,10 +96,28 @@ export default function LibraryPage() {
 
   const yearsTemplate = {
     year1: 1999,
-    year2: 2012,
-    year3: 2018,
-    year4: 2021,
-    year5: 2023,
+    year2: 2000,
+    year3: 2001,
+    year4: 2002,
+    year5: 2003,
+    year6: 2004,
+    year7: 2005,
+    year8: 2006,
+    year9: 2007,
+    year10: 2008,
+    year11: 2009,
+    year12: 2010,
+    year13: 2011,
+    year14: 2012,
+    year15: 2013,
+    year16: 2014,
+    year17: 2015,
+    year18: 2016,
+    year19: 2017,
+    year20: 2018,
+    year21: 2019,
+    year22: 2020,
+    year23: 2021,
   };
 
   const maxResultsTemplate = {
@@ -154,7 +172,7 @@ export default function LibraryPage() {
 
     if (searchTerms?.length) {
       const queryString = qs.stringify(
-        { themeValue },
+        { themeValue, yearValue },
         { skipEmptyString: true }
       );
       axios
@@ -177,7 +195,7 @@ export default function LibraryPage() {
     e.preventDefault();
     axios
       .get(
-        'https://www.googleapis.com/books/v1/volumes?q=Search' +
+        'https://www.googleapis.com/books/v1/volumes?q=' +
           searchValue +
           '&key=' +
           API_KEY +
@@ -189,10 +207,6 @@ export default function LibraryPage() {
       });
     setSearchValue('');
   };
-
-  useEffect(() => {
-    setThemeValue(theme);
-  }, []);
 
   const muiTheme = createMuiTheme({
     palette: {
@@ -221,7 +235,6 @@ export default function LibraryPage() {
               onChange={handleChangeSearchValue}
             />
             <Button
-              onClick={() => setSearchValue(TextField.value)}
               className={classes.searchSubmitButton}
               type="button"
               variant="contained"
@@ -241,6 +254,7 @@ export default function LibraryPage() {
             className={classes.themeSelect}
             label="Theme"
           >
+            <MenuItem value="" />
             <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
             <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
             <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
@@ -264,11 +278,30 @@ export default function LibraryPage() {
             className={classes.yearSelect}
             label="Year"
           >
+            <MenuItem value="" />
             <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
-            <MenuItem value={yearsTemplate.year2}>2012</MenuItem>
-            <MenuItem value={yearsTemplate.year3}>2018</MenuItem>
-            <MenuItem value={yearsTemplate.year4}>2021</MenuItem>
-            <MenuItem value={yearsTemplate.year5}>2023</MenuItem>
+            <MenuItem value={yearsTemplate.year2}>2000</MenuItem>
+            <MenuItem value={yearsTemplate.year3}>2001</MenuItem>
+            <MenuItem value={yearsTemplate.year4}>2002</MenuItem>
+            <MenuItem value={yearsTemplate.year5}>2003</MenuItem>
+            <MenuItem value={yearsTemplate.year6}>2004</MenuItem>
+            <MenuItem value={yearsTemplate.year7}>2005</MenuItem>
+            <MenuItem value={yearsTemplate.year8}>2006</MenuItem>
+            <MenuItem value={yearsTemplate.year9}>2007</MenuItem>
+            <MenuItem value={yearsTemplate.year10}>2008</MenuItem>
+            <MenuItem value={yearsTemplate.year11}>2009</MenuItem>
+            <MenuItem value={yearsTemplate.year12}>2010</MenuItem>
+            <MenuItem value={yearsTemplate.year13}>2011</MenuItem>
+            <MenuItem value={yearsTemplate.year14}>2012</MenuItem>
+            <MenuItem value={yearsTemplate.year15}>2013</MenuItem>
+            <MenuItem value={yearsTemplate.year16}>2014</MenuItem>
+            <MenuItem value={yearsTemplate.year17}>2015</MenuItem>
+            <MenuItem value={yearsTemplate.year18}>2016</MenuItem>
+            <MenuItem value={yearsTemplate.year19}>2017</MenuItem>
+            <MenuItem value={yearsTemplate.year20}>2018</MenuItem>
+            <MenuItem value={yearsTemplate.year21}>2019</MenuItem>
+            <MenuItem value={yearsTemplate.year22}>2020</MenuItem>
+            <MenuItem value={yearsTemplate.year23}>2021</MenuItem>
           </Select>
         </FormControl>
       </div>
