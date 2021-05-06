@@ -9,13 +9,24 @@ body {
   justify-content: space-around;
 }
 
-.label {
-  line-height: 2;
-  text-align: left;
-  display: block;
-  margin-bottom: 13px;
-  margin-top: 20px;
-  color: white;
-  font-size: 14px;
-  font-weight: 200;
+img {
+  border-radius: 50%;
+}
+
+@media all and (max-width: 800px) {
+  .avatar {
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    padding-right: 20px;
+  }
+  #avatar1 {
+    width: '100';
+  }
+}
+
+@media all and (min-width: 800px) {
+  #avatar1 {
+    width: '300';
+  }
 }

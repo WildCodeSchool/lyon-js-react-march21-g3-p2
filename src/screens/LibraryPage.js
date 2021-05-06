@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
 /* eslint-disable prefer-template */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import qs from 'query-string';
 import Button from '@material-ui/core/Button';
@@ -12,10 +12,16 @@ import {
   TextField,
   MenuItem,
   makeStyles,
+  InputLabel,
 } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   searchComponents: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -30,13 +36,12 @@ const useStyles = makeStyles(() => ({
     height: 'auto',
     backgroundColor: 'white',
     borderRadius: '4px',
+    [theme.breakpoints.down('sm')]: {
+      width: '200px',
+    },
   },
   searchSubmitButton: {
     width: 'auto',
-    height: 'auto',
-  },
-  advancedButton: {
-    width: '300px',
     height: 'auto',
   },
   advancedButtonComponents: {
@@ -44,10 +49,10 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-evenly',
   },
   themeSelect: {
-    display: 'flex',
+    width: '100px',
   },
   yearSelect: {
-    display: 'flex',
+    width: '80px',
   },
   maxResultSelect: {
     display: 'flex',
@@ -62,16 +67,47 @@ const useStyles = makeStyles(() => ({
     height: '100%',
   },
   resultComponents: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    flexFlow: 'wrap',
-    padding: '100px',
-  },
-  resultImages: {
     width: 'auto',
-    height: '200px',
-    margin: '10px',
-    cursor: 'pointer',
+    height: 'auto',
+    marginLeft: 200,
+    marginRight: 200,
+    marginTop: 100,
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexFlow: 'wrap',
+    [theme.breakpoints.down('md')]: {
+      margin: 0,
+      display: 'flex',
+      justifyContent: 'center',
+    },
+  },
+  content: {
+    backgroundColor: 'white',
+    height: 'auto',
+  },
+  card: {
+    width: 250,
+    height: '100%',
+    margin: 50,
+    transition: '0.3s',
+    boxShadow: '1px 1px 5px rgba(0,0,0,0.3)',
+    borderRadius: '10px',
+    '&:hover': {
+      boxShadow: '1px 1px 20px 5px rgba(0,0,0,0.3)',
+    },
+  },
+  media: {
+    height: 100,
+    paddingTop: '100%',
+  },
+  titrelivre: {
+    color: '#333355',
+    fontFamily: 'Raleway',
+    fontSize: '1.5em',
+    textAlign: 'left',
+  },
+  lien: {
+    textDecoration: 'none',
   },
 }));
 
@@ -96,10 +132,28 @@ export default function LibraryPage() {
 
   const yearsTemplate = {
     year1: 1999,
-    year2: 2012,
-    year3: 2018,
-    year4: 2021,
-    year5: 2023,
+    year2: 2000,
+    year3: 2001,
+    year4: 2002,
+    year5: 2003,
+    year6: 2004,
+    year7: 2005,
+    year8: 2006,
+    year9: 2007,
+    year10: 2008,
+    year11: 2009,
+    year12: 2010,
+    year13: 2011,
+    year14: 2012,
+    year15: 2013,
+    year16: 2014,
+    year17: 2015,
+    year18: 2016,
+    year19: 2017,
+    year20: 2018,
+    year21: 2019,
+    year22: 2020,
+    year23: 2021,
   };
 
   const maxResultsTemplate = {
@@ -109,11 +163,12 @@ export default function LibraryPage() {
     maxResult4: 40,
   };
 
+  const { theme } = useParams();
+
   const [searchValue, setSearchValue] = useState('');
   const [resultValue, setResultValue] = useState([]);
-  const [displayCategories, setDisplayCategories] = useState(false);
-  const [themeValue, setThemeValue] = useState(themesTemplate.theme1);
-  const [yearValue, setYearValue] = useState(yearsTemplate.year1);
+  const [themeValue, setThemeValue] = useState('');
+  const [yearValue, setYearValue] = useState('');
   const [maxResultValue, setMaxResultValue] = useState(
     maxResultsTemplate.maxResult1
   );
@@ -125,15 +180,52 @@ export default function LibraryPage() {
   const handleChangeSearchValue = (e) => {
     setSearchValue(e.target.value);
   };
-  const handleChangeThemeValue = (e) => {
-    setThemeValue(e.target.value);
-  };
-  const handleChangeYearValue = (e) => {
-    setYearValue(e.target.value);
-  };
   const handleChangeMaxResultValue = (e) => {
     setMaxResultValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (theme) {
+      setThemeValue(theme);
+    }
+  }, []);
+
+  useEffect(() => {
+    const searchTerms = [];
+    const searchResults = [];
+
+    if (themeValue) {
+      searchTerms.push(themeValue);
+    }
+
+    if (yearValue) {
+      searchTerms.push(yearValue);
+    }
+
+    if (maxResultValue) {
+      searchResults.push(maxResultValue);
+    }
+
+    if (searchTerms?.length) {
+      const queryString = qs.stringify(
+        { themeValue, yearValue },
+        { skipEmptyString: true }
+      );
+      axios
+        .get(
+          'https://www.googleapis.com/books/v1/volumes?q=' +
+            searchTerms.join('+') +
+            '&key=' +
+            API_KEY +
+            '&maxResults=' +
+            searchResults
+        )
+        .then((res) => {
+          setResultValue(res.data.items);
+          history.push('/' + queryString ? `?${queryString}` : '');
+        });
+    }
+  }, [themeValue, yearValue, maxResultValue]);
 
   const handleSubmitSearchValue = (e) => {
     e.preventDefault();
@@ -152,49 +244,7 @@ export default function LibraryPage() {
     setSearchValue('');
   };
 
-  const handleSubmitThemeValue = (e) => {
-    e.preventDefault();
-    const theme = themeValue;
-    const queryString = qs.stringify({ theme }, { skipEmptyString: true });
-    axios
-      .get(
-        'https://www.googleapis.com/books/v1/volumes?q=' +
-          theme +
-          '&key=' +
-          API_KEY +
-          '&maxResults=' +
-          maxResultValue
-      )
-      .then((res) => {
-        setResultValue(res.data.items);
-        history.push('/' + queryString ? `?${queryString}` : '');
-      });
-  };
-
-  const handleSubmitYearValue = (e) => {
-    e.preventDefault();
-    const year = yearValue;
-    const queryString = qs.stringify({ year }, { skipEmptyString: true });
-    axios
-      .get(
-        'https://www.googleapis.com/books/v1/volumes?q=' +
-          year +
-          '&key=' +
-          API_KEY +
-          '&maxResults=' +
-          maxResultValue
-      )
-      .then((res) => {
-        setResultValue(res.data.items);
-        history.push('/' + queryString ? `?${queryString}` : '');
-      });
-  };
-
-  const closeAvancedResearch = () => {
-    setDisplayCategories(!displayCategories);
-  };
-
-  const theme = createMuiTheme({
+  const muiTheme = createMuiTheme({
     palette: {
       primary: {
         main: '#aa6655',
@@ -205,8 +255,21 @@ export default function LibraryPage() {
     },
   });
 
+  function formatBookTitle(title, maxLength, cutWord) {
+    if (title.length <= maxLength) {
+      return title;
+    }
+
+    const subString = title.substr(0, maxLength - 1);
+
+    return (
+      (cutWord ? subString : subString.substr(0, subString.lastIndexOf(' '))) +
+      '...'
+    );
+  }
+
   return (
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={muiTheme}>
       <form onSubmit={handleSubmitSearchValue}>
         <div className={classes.searchComponents}>
           <div className={classes.formComponents}>
@@ -222,95 +285,94 @@ export default function LibraryPage() {
             />
             <Button
               className={classes.searchSubmitButton}
-              type="submit"
+              type="button"
               variant="contained"
               color="primary"
             >
               ►
             </Button>
           </div>
-          <Button
-            className={classes.advancedButton}
-            variant="contained"
-            color="primary"
-            onClick={() => closeAvancedResearch()}
-          >
-            Advanced Research
-          </Button>
         </div>
       </form>
-      {displayCategories ? (
-        <div className={classes.advancedButtonComponents}>
-          <div className={classes.themeSelect}>
-            <FormControl variant="outlined" className="form-theme">
-              <Select
-                value={themeValue}
-                onChange={handleChangeThemeValue}
-                id="select-theme"
-              >
-                <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
-                <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
-                <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
-                <MenuItem value={themesTemplate.theme4}>Business</MenuItem>
-                <MenuItem value={themesTemplate.theme5}>Computers</MenuItem>
-                <MenuItem value={themesTemplate.theme6}>Education</MenuItem>
-                <MenuItem value={themesTemplate.theme7}>Fiction</MenuItem>
-                <MenuItem value={themesTemplate.theme8}>History</MenuItem>
-                <MenuItem value={themesTemplate.theme9}>Law</MenuItem>
-                <MenuItem value={themesTemplate.theme10}>Mathematics</MenuItem>
-                <MenuItem value={themesTemplate.theme11}>Medical</MenuItem>
-                <MenuItem value={themesTemplate.theme12}>Music</MenuItem>
-                <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
-              </Select>
-            </FormControl>
-            <form onSubmit={handleSubmitThemeValue}>
-              <Button
-                className={classes.themeSubmitButton}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                ►
-              </Button>
-            </form>
-          </div>
-          <div className={classes.yearSelect}>
-            <FormControl variant="outlined" className="form-year">
-              <Select
-                value={yearValue}
-                onChange={handleChangeYearValue}
-                id="select-year"
-              >
-                <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
-                <MenuItem value={yearsTemplate.year2}>2012</MenuItem>
-                <MenuItem value={yearsTemplate.year3}>2018</MenuItem>
-                <MenuItem value={yearsTemplate.year4}>2021</MenuItem>
-                <MenuItem value={yearsTemplate.year5}>2023</MenuItem>
-              </Select>
-            </FormControl>
-            <form onSubmit={handleSubmitYearValue}>
-              <Button
-                className={classes.yearSubmitButton}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                ►
-              </Button>
-            </form>
-          </div>
-        </div>
-      ) : null}
+      <div className={classes.advancedButtonComponents}>
+        <FormControl variant="outlined" className="form-theme">
+          <InputLabel id="input-theme">Theme</InputLabel>
+          <Select
+            value={themeValue}
+            onChange={(event) => setThemeValue(event.target.value)}
+            className={classes.themeSelect}
+            label="Theme"
+          >
+            <MenuItem value="" />
+            <MenuItem value={themesTemplate.theme1}>Architecture</MenuItem>
+            <MenuItem value={themesTemplate.theme2}>Art</MenuItem>
+            <MenuItem value={themesTemplate.theme3}>Biography</MenuItem>
+            <MenuItem value={themesTemplate.theme4}>Business</MenuItem>
+            <MenuItem value={themesTemplate.theme5}>Computers</MenuItem>
+            <MenuItem value={themesTemplate.theme6}>Education</MenuItem>
+            <MenuItem value={themesTemplate.theme7}>Fiction</MenuItem>
+            <MenuItem value={themesTemplate.theme8}>History</MenuItem>
+            <MenuItem value={themesTemplate.theme9}>Law</MenuItem>
+            <MenuItem value={themesTemplate.theme10}>Mathematics</MenuItem>
+            <MenuItem value={themesTemplate.theme11}>Medical</MenuItem>
+            <MenuItem value={themesTemplate.theme12}>Music</MenuItem>
+            <MenuItem value={themesTemplate.theme13}>Philosophy</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" className="form-year">
+          <InputLabel id="input-year">Year</InputLabel>
+          <Select
+            value={yearValue}
+            onChange={(event) => setYearValue(event.target.value)}
+            className={classes.yearSelect}
+            label="Year"
+          >
+            <MenuItem value="" />
+            <MenuItem value={yearsTemplate.year1}>1999</MenuItem>
+            <MenuItem value={yearsTemplate.year2}>2000</MenuItem>
+            <MenuItem value={yearsTemplate.year3}>2001</MenuItem>
+            <MenuItem value={yearsTemplate.year4}>2002</MenuItem>
+            <MenuItem value={yearsTemplate.year5}>2003</MenuItem>
+            <MenuItem value={yearsTemplate.year6}>2004</MenuItem>
+            <MenuItem value={yearsTemplate.year7}>2005</MenuItem>
+            <MenuItem value={yearsTemplate.year8}>2006</MenuItem>
+            <MenuItem value={yearsTemplate.year9}>2007</MenuItem>
+            <MenuItem value={yearsTemplate.year10}>2008</MenuItem>
+            <MenuItem value={yearsTemplate.year11}>2009</MenuItem>
+            <MenuItem value={yearsTemplate.year12}>2010</MenuItem>
+            <MenuItem value={yearsTemplate.year13}>2011</MenuItem>
+            <MenuItem value={yearsTemplate.year14}>2012</MenuItem>
+            <MenuItem value={yearsTemplate.year15}>2013</MenuItem>
+            <MenuItem value={yearsTemplate.year16}>2014</MenuItem>
+            <MenuItem value={yearsTemplate.year17}>2015</MenuItem>
+            <MenuItem value={yearsTemplate.year18}>2016</MenuItem>
+            <MenuItem value={yearsTemplate.year19}>2017</MenuItem>
+            <MenuItem value={yearsTemplate.year20}>2018</MenuItem>
+            <MenuItem value={yearsTemplate.year21}>2019</MenuItem>
+            <MenuItem value={yearsTemplate.year22}>2020</MenuItem>
+            <MenuItem value={yearsTemplate.year23}>2021</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div className={classes.resultComponents}>
         {resultValue.map((result) =>
           result.volumeInfo.imageLinks === undefined ? null : (
-            <Link key={result.id} to={`/books/${result.id}`}>
-              <img
-                className={classes.resultImages}
-                src={`${result.volumeInfo.imageLinks.thumbnail}`}
-                alt={result.volumeInfo.title}
-              />
-            </Link>
+            <Card className={classes.card} key={result.id}>
+              <Link className={classes.lien} to={`/books/${result.id}`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={result.volumeInfo.imageLinks.thumbnail}
+                    alt={result.volumeInfo.title}
+                  />
+                  <CardContent className={classes.content}>
+                    <Typography className={classes.titrelivre} variant="h5">
+                      {formatBookTitle(result.volumeInfo.title, 30, false)}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
+            </Card>
           )
         )}
       </div>

@@ -35,7 +35,6 @@ input {
   justify-content: center;
   background: #333355;
   color: #ecc39f;
-  text-transform: uppercase;
   border: none;
   margin-top: 40px;
   padding: 20px;
@@ -43,4 +42,17 @@ input {
   font-size: 16px;
   font-weight: 100;
   margin-bottom: 20px;
+  cursor: pointer;
+}
+
+@media all and (max-width: 700px) {
+  #name {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: auto;
+  }
+  #outlined-basic4 {
+    width: 375px;
+  }
 }
