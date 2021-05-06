@@ -7,13 +7,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   themeContainer: {
     width: 'auto',
     height: 'auto',
     marginLeft: 200,
     marginRight: 200,
     marginTop: 100,
+    [theme.breakpoints.down('md')]: {
+      margin: 0,
+    },
   },
   titreContainer: {
     color: '#333355',
@@ -22,11 +25,18 @@ const useStyles = makeStyles({
     textAlign: 'left',
     fontSize: '3em',
     margin: 50,
+    [theme.breakpoints.down('md')]: {
+      textAlign: 'center',
+    },
   },
   display: {
     display: 'flex',
     justifyContent: 'space-between',
     flexFlow: 'wrap',
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
   },
   content: {
     backgroundColor: 'white',
@@ -54,7 +64,7 @@ const useStyles = makeStyles({
   lien: {
     textDecoration: 'none',
   },
-});
+}));
 
 export default function ThemeSection() {
   const classes = useStyles();
