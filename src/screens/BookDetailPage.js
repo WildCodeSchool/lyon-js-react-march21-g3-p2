@@ -33,16 +33,19 @@ function BookDetailPage() {
           <h1 id="averageNote">
             {details.volumeInfo.averageRating
               ? details.volumeInfo.averageRating
-              : 'Pas de note'}
+              : `Désolé il n'y a pas de notes pour le moment`}
           </h1>
           <h3 id="description">{details.volumeInfo.description}</h3>
           <div id="review">
             <form>
-              <input type="text" placeholder="Name" />
+              <input type="text" placeholder="Name :" />
               <br />
-              <textarea placeholder="Review" />
+              <textarea placeholder="Write your review here" />
               <br />
-              <button type="submit">Send</button>
+              <button style={{ backgroundColor: '#333355' }} type="submit">
+                {' '}
+                Send
+              </button>
             </form>
           </div>
           <div id="place">Where all scenes took place</div>
