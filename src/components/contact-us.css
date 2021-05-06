@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 .label {
@@ -11,6 +12,7 @@ body {
   color: white;
   font-size: 14px;
   font-weight: 200;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 #name {
@@ -18,11 +20,13 @@ body {
   justify-content: space-between;
   width: 700px;
   margin: auto;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 #outlined-basic4 {
   width: 675px;
   height: 112px;
+  font-family: 'Raleway', 'sans-serif';
 }
 
 input {
@@ -34,7 +38,7 @@ input {
   border: none;
   margin-top: 40px;
   padding: 20px;
-  font-family: 'century gothic', 'Trebuchet MS', 'arial', sans-serif;
+  font-family: 'Raleway', 'sans-serif';
   font-size: 16px;
   font-weight: 100;
   margin-bottom: 20px;
