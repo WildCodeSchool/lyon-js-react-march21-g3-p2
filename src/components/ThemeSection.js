@@ -83,7 +83,7 @@ export default function ThemeSection() {
 
     {
       id: 3,
-      name: 'Biogrpahie',
+      name: 'Biographie',
       url: 'https://i.imgur.com/mm0iqSx.jpg',
     },
 
